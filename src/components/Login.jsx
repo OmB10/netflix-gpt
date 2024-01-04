@@ -1,15 +1,25 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Header from './Header'
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/solid';
+import { checkValidData } from '../utils/validate';
 
 const Login = () => {
 
     const [isSignInForm, setIsSignInForm] = useState(true)
     const toggleSignInForm = () => setIsSignInForm(!isSignInForm)
 
-
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const [errorMessage, setErrorMessage] = useState(null)
+
+    const email = useRef(null)
+    const password = useRef(null)
+
+    const handleButtonClick = () => {
+        const message = checkValidData(email.current.value, password.current.value)
+        setErrorMessage(message);
+    }
 
     return (
         <div>
@@ -31,6 +41,7 @@ const Login = () => {
                 <input
                     type="text"
                     name="email"
+                    ref={email}
                     placeholder="Email or phone number"
                     className="p-2 mb-4 w-full bg-[#454545] text-white rounded"
                 />
@@ -39,6 +50,7 @@ const Login = () => {
                     <input
                         type={showPassword ? "text" : "password"}
                         name="password"
+                        ref={password}
                         placeholder="Password"
                         className="p-2 w-full bg-[#454545] text-white rounded"
                     />
@@ -67,7 +79,8 @@ const Login = () => {
                         </div>
                     </div>
                 )}
-                <button className="p-2 w-full bg-red-600 text-white rounded mt-5 mb-4">
+                <p className='text-red-500 '>{errorMessage}</p>
+                <button className="p-2 w-full bg-red-600 hover:bg-red-700 text-white rounded mt-5 mb-4" onClick={handleButtonClick}>
                     {isSignInForm ? "Sign In" : "Sign Up"}
                 </button>
 
