@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react'
 import Header from './Header'
 import { EyeIcon, EyeOffIcon } from '@heroicons/react/solid';
 import { checkValidData } from '../utils/validate';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../utils/firebase';
 
 const Login = () => {
 
@@ -9,7 +11,6 @@ const Login = () => {
     const toggleSignInForm = () => setIsSignInForm(!isSignInForm)
 
     const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const [errorMessage, setErrorMessage] = useState(null)
 
@@ -19,6 +20,52 @@ const Login = () => {
     const handleButtonClick = () => {
         const message = checkValidData(email.current.value, password.current.value)
         setErrorMessage(message);
+
+        if (message) return
+        //sign in or sign up
+
+        if (!isSignInForm) {
+            //sign up 
+
+            createUserWithEmailAndPassword(
+                auth,
+                email.current.value,
+                password.current.value
+
+            )
+                .then((userCredential) => {
+                    // Signed up 
+                    const user = userCredential.user;
+                    console.log(user);
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessage(errorCode, errorMessage)
+                    // ..
+                });
+
+        } else {
+            //sign in
+
+            signInWithEmailAndPassword(
+                auth,
+                email.current.value,
+                password.current.value,
+            )
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    console.log(user);
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessage(errorCode, errorMessage)
+                });
+        }
     }
 
     return (
@@ -62,23 +109,6 @@ const Login = () => {
                         )}
                     </div>
                 </div>
-                {!isSignInForm && (
-                    <div className="relative mt-4">
-                        <input
-                            type={showConfirmPassword ? "text" : "password"}
-                            name="password"
-                            placeholder="Confirm Password"
-                            className="p-2 w-full bg-[#454545] text-white rounded"
-                        />
-                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
-                            {showConfirmPassword ? (
-                                <EyeOffIcon className="h-6 text-[#8c8c8c]" onClick={() => setShowConfirmPassword(false)} />
-                            ) : (
-                                <EyeIcon className="h-6 text-[#8c8c8c]" onClick={() => setShowConfirmPassword(true)} />
-                            )}
-                        </div>
-                    </div>
-                )}
                 <p className='text-red-500 '>{errorMessage}</p>
                 <button className="p-2 w-full bg-red-600 hover:bg-red-700 text-white rounded mt-5 mb-4" onClick={handleButtonClick}>
                     {isSignInForm ? "Sign In" : "Sign Up"}
