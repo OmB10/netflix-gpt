@@ -4,6 +4,7 @@ import { EyeIcon, EyeOffIcon } from '@heroicons/react/solid';
 import { checkValidData } from '../utils/validate';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../utils/firebase';
+import { BG_IMAGE } from '../utils/constants';
 
 const Login = () => {
 
@@ -11,7 +12,6 @@ const Login = () => {
     const toggleSignInForm = () => setIsSignInForm(!isSignInForm)
 
     const [showPassword, setShowPassword] = useState(false);
-
     const [errorMessage, setErrorMessage] = useState(null)
 
     const email = useRef(null)
@@ -36,14 +36,13 @@ const Login = () => {
                 .then((userCredential) => {
                     // Signed up 
                     const user = userCredential.user;
-                    console.log(user);
-                    // ...
+
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     setErrorMessage(errorCode, errorMessage)
-                    // ..
+
                 });
 
         } else {
@@ -57,8 +56,6 @@ const Login = () => {
                 .then((userCredential) => {
                     // Signed in 
                     const user = userCredential.user;
-                    console.log(user);
-                    // ...
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -71,8 +68,8 @@ const Login = () => {
     return (
         <div>
             <Header />
-            <div className='absolute -z-10'>
-                <img src="https://assets.nflxext.com/ffe/siteui/vlv3/c31c3123-3df7-4359-8b8c-475bd2d9925d/15feb590-3d73-45e9-9e4a-2eb334c83921/IN-en-20231225-popsignuptwoweeks-perspective_alpha_website_large.jpg" alt="background" />
+            <div className='absolute'>
+                <img src={BG_IMAGE} className='w-screen' alt="background" />
             </div>
 
             <div className="absolute bg-black bg-opacity-80 p-8 rounded-lg w-3/12 my-36 left-0 right-0 mx-auto">
