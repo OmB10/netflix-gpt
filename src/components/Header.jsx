@@ -50,13 +50,13 @@ const Header = () => {
 
 
     return (
-        <div className='absolute pl-8 py-2 bg-gradient-to-b from-black w-full z-10 flex justify-between '>
+        <div className='absolute pl-8 py-3 bg-gradient-to-b from-black w-full z-10 flex justify-between '>
             <img
                 className='w-48'
                 src={LOGO} alt="logo" />
 
             {isSignIn ? (
-                <div className='flex gap-6 p-6 z-10'>
+                <div className='flex gap-6 p-5 z-10'>
                     <div className='bg-green-500 w-14 h-14 rounded-lg text-3xl flex justify-center items-center'>
                         💀
                     </div>
