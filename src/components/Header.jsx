@@ -79,12 +79,12 @@ const Header = () => {
             {isSignIn && location.pathname === "/browse" && (
                 <div className='flex py-5 z-10'>
                     <div className='flex gap-5 items-center'>
-                        <div onClick={handleGptSearch} className='bg-purple-600 hover:bg-purple-700 cursor-pointer flex gap-2 text-white font-semibold px-4 py-2 rounded-md'>
+                        <div onClick={handleGptSearch} className='bg-blue-950 hover:bg-blue-900 cursor-pointer flex gap-2 text-white font-semibold px-4 py-2 rounded-md'>
                             {showGptSearch ? "Home" : <><span>GPT</span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                             </svg></>}
                         </div>
-                        <div className='bg-green-500 w-12 h-10 rounded-lg text-3xl flex justify-center '>
+                        <div className='bg-black w-12 h-10 rounded-lg text-3xl flex justify-center '>
                             {randomEmoji}
                         </div>
                         <div onClick={handleSignOut} className='bg-red-600 hover:bg-red-700 px-4 py-2 cursor-pointer rounded-lg text-white font-semibold'>Sign Out</div>
