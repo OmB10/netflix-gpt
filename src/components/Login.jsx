@@ -72,8 +72,8 @@ const Login = () => {
                 <img src={BG_IMAGE} className='w-screen' style={{ filter: 'brightness(50%)' }} alt="background" />
             </div>
 
-            <div className="absolute bg-black bg-opacity-80 p-8 rounded-lg w-3/12 my-36 left-0 right-0 mx-auto">
-                <h2 className="text-white text-3xl mb-6">{isSignInForm ? "Sign In" : "Sign Up"}</h2>
+            <div className="absolute bg-black bg-opacity-80 p-4 md:p-8 rounded-lg w-11/12 sm:w-3/4 md:w-1/2 lg:w-3/12 my-16 md:my-36 left-0 right-0 mx-auto">
+                <h2 className="text-white text-2xl md:text-3xl mb-6">{isSignInForm ? "Sign In" : "Sign Up"}</h2>
 
                 {!isSignInForm && <input
                     type="text"
@@ -100,9 +100,9 @@ const Login = () => {
                     />
                     <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm">
                         {showPassword ? (
-                            <EyeOffIcon className="h-6 text-[#8c8c8c]" onClick={() => setShowPassword(false)} />
+                            <EyeOffIcon className="h-4 md:h-6 text-[#8c8c8c]" onClick={() => setShowPassword(false)} />
                         ) : (
-                            <EyeIcon className="h-6 text-[#8c8c8c]" onClick={() => setShowPassword(true)} />
+                            <EyeIcon className="h-4 md:h-6 text-[#8c8c8c]" onClick={() => setShowPassword(true)} />
                         )}
                     </div>
                 </div>
@@ -115,7 +115,7 @@ const Login = () => {
                     <label className='flex items-center'>
 
                         <input
-                            className='w-5 h-5'
+                            className='w-4 h-4'
                             type='checkbox'
                         />
                         <span className='ml-1 text-white'>Remember me</span>
@@ -128,6 +128,7 @@ const Login = () => {
                 </div>
             </div>
         </div>
+
 
     )
 }
