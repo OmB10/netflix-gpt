@@ -69,7 +69,7 @@ const Login = () => {
         <div>
             <Header />
             <div className='absolute'>
-                <img src={BG_IMAGE} className='w-screen' alt="background" />
+                <img src={BG_IMAGE} className='w-screen' style={{ filter: 'brightness(50%)' }} alt="background" />
             </div>
 
             <div className="absolute bg-black bg-opacity-80 p-8 rounded-lg w-3/12 my-36 left-0 right-0 mx-auto">

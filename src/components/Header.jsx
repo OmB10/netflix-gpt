@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from '../utils/firebase';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addUser, removeUser } from '../utils/userSlice';
 import { LOGO } from '../utils/constants';
+import { toggleGptSearch } from '../utils/gptSlice'
+import { showGptSearch } from '../utils/gptSlice'
 
 const Header = () => {
 
     const navigate = useNavigate()
+    const location = useLocation()
     const dispatch = useDispatch()
+    const showGptSearch = useSelector((store) => store.gpt.showGptSearch)
     const [isSignIn, setIsSignIn] = useState(false)
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Array of emojis
+    const emojis = ['💀', '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '🙂', '😝', '👽', '🤖', '😺', '😸', '🐶', '🦁', '🐯', '🐹', '🐰', '🐻', '🐻‍❄️', '🐼'];
+    // Select a random emoji
+    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -19,6 +29,7 @@ const Header = () => {
             } else {
                 setIsSignIn(false)
             }
+            setIsLoading(false);
         });
         return () => unsubscribe();
     }, []);
@@ -26,6 +37,7 @@ const Header = () => {
     const handleSignOut = () => {
         signOut(auth).then(() => {
             setIsSignIn(false)
+            navigate("/login")
         }).catch((error) => {
             navigate("/error")
         });
@@ -42,28 +54,47 @@ const Header = () => {
             } else {
                 // User is signed out
                 dispatch(removeUser())
-                navigate("/")
             }
             return () => unsubscribe();
         });
     }, [])
 
+    const handleGptSearch = () => {
+        dispatch(toggleGptSearch())
+    }
+
 
     return (
-        <div className='absolute pl-8 py-3 bg-gradient-to-b from-black w-full z-10 flex justify-between '>
+        <div className='absolute p-8 py-3 bg-gradient-to-b from-black w-full z-10 flex flex-row justify-between '>
             <img
-                className='w-48'
+                className='w-48 cursor-pointer'
+                onClick={() => navigate("/")}
                 src={LOGO} alt="logo" />
+            <div className='flex items-center'>
+                {location.pathname === "/" && (
+                    <div onClick={() => navigate("/login")} className='bg-red-600 cursor-pointer hover:bg-red-700 px-4 py-2 rounded-lg text-white font-semibold z-30'>Sign In</div>
+                )}
+            </div>
 
-            {isSignIn ? (
-                <div className='flex gap-6 p-5 z-10'>
-                    <div className='bg-green-500 w-14 h-14 rounded-lg text-3xl flex justify-center items-center'>
-                        💀
+            {isSignIn && location.pathname === "/browse" && (
+                <div className='flex py-5 z-10'>
+                    <div className='flex gap-5 items-center'>
+                        <div onClick={handleGptSearch} className='bg-purple-600 hover:bg-purple-700 cursor-pointer flex gap-2 text-white font-semibold px-4 py-2 rounded-md'>
+                            {showGptSearch ? "Home" : <><span>GPT</span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                            </svg></>}
+                        </div>
+                        <div className='bg-green-500 w-12 h-10 rounded-lg text-3xl flex justify-center '>
+                            {randomEmoji}
+                        </div>
+                        <div onClick={handleSignOut} className='bg-red-600 hover:bg-red-700 px-4 py-2 cursor-pointer rounded-lg text-white font-semibold'>Sign Out</div>
                     </div>
-                    <button onClick={handleSignOut} className='bg-red-600 hover:bg-red-700 px-3 rounded-lg text-white font-semibold'>Sign Out</button>
+
                 </div>
-            ) : null}
-        </div>
+            )
+            }
+        </div >
+
     )
 }
 
