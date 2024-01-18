@@ -4,10 +4,12 @@ import appStore from "./utils/appStore";
 
 function App() {
   return (
+    <div className=" min-h-screen bg-black">
+      <Provider store={appStore}>
+        <Body />
+      </Provider>
+    </div>
 
-    <Provider store={appStore}>
-      <Body />
-    </Provider>
 
   );
 }

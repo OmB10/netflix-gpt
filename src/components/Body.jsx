@@ -4,6 +4,7 @@ import Home from './Home';
 import Login from './Login';
 import Browse from './Browse';
 import PrivateRoute from './PrivateRoute';
+import Error from './Error'
 
 const Body = () => {
     return (
@@ -15,6 +16,7 @@ const Body = () => {
                     <Route path="/browse" element={<PrivateRoute />}>
                         <Route path="" element={<Browse />} />
                     </Route>
+                    <Route path="/error" element={<Error />} />
 
                 </Routes>
             </Router>
