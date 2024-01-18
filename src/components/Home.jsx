@@ -12,7 +12,7 @@ const Home = () => {
         <div>
             <Header />
             <div className="relative w-full">
-                <img src={BG_IMAGE} className='absolute w-screen ' alt="background" style={{ filter: 'brightness(50%)' }} />
+                <img src={BG_IMAGE} className='absolute h-screen w-screen ' alt="background" style={{ filter: 'brightness(50%)' }} />
                 <div className="absolute w-full h-full bg-gradient-to-b from-black to-transparent"></div>
                 <div className="relative flex flex-col text-center text-white pt-16 md:pt-32 justify-center items-center px-4">
                     <h1 className="text-2xl md:text-4xl mb-4 font-bold text-white">Unlimited movies, TV shows and more</h1>
